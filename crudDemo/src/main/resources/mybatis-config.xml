@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF8" ?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <!--有啥用来着?-->
     <typeAliases>
         <package name="com.qingqiao.entity"/>
     </typeAliases>
@@ -18,6 +19,7 @@
     </environments>
 
     <mappers>
+        <!--要用的mapper配置文件-->
         <mapper resource="com/qingqiao/mapper/UserMapper.xml"/>
     </mappers>
 
