@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,13 +33,17 @@ public class Test {
 
         //insertDoc(docMapper, new Doctor(0,"z4546","男","青h桥",new Hospital(1,null)));
 
-        //deleteDoc(docMapper, 11);s
+        /*ArrayList<Integer> ids = new ArrayList<>();
+        ids.add(25);
+        ids.add(26);
+        deleteDoc(docMapper, ids);*/
 
         //updateDoc(docMapper, new Doctor(22,"子涵~~~~","女","青桥",new Hospital(1,null)));
-
+        sqlSession.close();
     }
+
     //查
-    private static void queryDoc (DocMapper docMapper){
+    private static void queryDoc(DocMapper docMapper) {
 
         List<Doctor> doctorList = docMapper.queryDoc();
         for (Doctor doctor : doctorList) {
@@ -48,35 +53,35 @@ public class Test {
     }
 
     //查一个
-    private static void queryA_Doc(DocMapper docMapper,Integer id){
+    private static void queryA_Doc(DocMapper docMapper, Integer id) {
         Doctor doctor = docMapper.queryById(id);
         System.out.println(doctor);
 
     }
 
     //增
-    private static void insertDoc(DocMapper docMapper,Doctor doctor){
+    private static void insertDoc(DocMapper docMapper, Doctor doctor) {
         int i = docMapper.insertDoc(doctor);
-        if (i>0){
-            System.out.println("新增医生:"+doctor);
+        if (i > 0) {
+            System.out.println("新增医生:" + doctor);
         }
         queryDoc(docMapper);
     }
 
     //删
-    private static void deleteDoc(DocMapper docMapper,Integer id){
-        int i = docMapper.deleteDoc(id);
+    private static void deleteDoc(DocMapper docMapper, ArrayList<Integer> list) {
+        int i = docMapper.deleteDoc(list);
 
-        if (i>0){
-            System.out.println("已删除原id: "+id);
+        if (i > 0) {
+            System.out.println("已删除条数: " + i);
         }
         queryDoc(docMapper);
     }
 
     //改
-    private static void updateDoc(DocMapper docMapper,Doctor doctor){
+    private static void updateDoc(DocMapper docMapper, Doctor doctor) {
         int i = docMapper.updateDoc(doctor);
-        if (i>0){
+        if (i > 0) {
             System.out.println("修改成功");
         }
         queryDoc(docMapper);

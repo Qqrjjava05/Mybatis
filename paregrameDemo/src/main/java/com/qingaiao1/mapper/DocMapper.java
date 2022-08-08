@@ -2,6 +2,7 @@ package com.qingaiao1.mapper;
 
 import com.qingaiao1.entity.Doctor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ public interface DocMapper {
 
     Doctor queryById(Integer id);
 
-    int deleteDoc(Integer id);
+    int deleteDoc(ArrayList<Integer> ids);
 
     int updateDoc(Doctor doctor);
 

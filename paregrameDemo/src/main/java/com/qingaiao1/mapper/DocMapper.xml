@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!--包名, 对应接口全限定名-->
+
+
 <mapper namespace="com.qingaiao1.mapper.DocMapper">
     <!--List<Doctor> queryDoc ()-->
     <select id="queryDoc" resultType="doctor">
         select d.*,h.name from doctor d left join hospital h on d.hid = h.id
+        <where>
+
+        </where>
     </select>
 
     <!--Doctor queryById(Integer id)-->
@@ -19,13 +23,44 @@
     </insert>
 
     <!--int deleteDoc(Integer id)-->
-    <delete id="deleteDoc" parameterType="int">
+    <!--简陋版-->
+    <!--<delete id="deleteDoc" parameterType="int">
         delete from doctor where id = #{id}
+    </delete>-->
+    <!--进阶版-->
+    <!--(#{id1},#{id2},#{id3},#{id4},#{id5})-->
+    <delete id="deleteDoc">
+        delete from doctor where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+
     </delete>
 
     <!--int updateDoc(Doctor doctor)-->
+    <!--简陋版
     <update id="updateDoc">
         update doctor set name = #{name}, sex = #{sex}, address = #{address}, hid = #{hospital.id} where id = #{id}
+    </update>
+    -->
+    <!--进化版-->
+    <update id="updateDoc">
+        update doctor
+        <set>
+            <if test="name != '' and name != null">
+                name = #{name}
+            </if>
+            <if test="sex != '' and sex != null">
+                sex = #{sex}
+            </if>
+            <if test="address != '' and address != null">
+                address = #{address}
+            </if>
+            <if test="hospital.id != '' and hospital.id != null">
+                hid = #{hospital.id}
+            </if>
+        </set>
+        where id = #{id}
     </update>
 
 </mapper>
