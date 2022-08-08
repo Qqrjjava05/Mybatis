@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--包名, 对应接口全限定名-->
+<mapper namespace="com.qingaiao1.mapper.DocMapper">
+    <!--List<Doctor> queryDoc ()-->
+    <select id="queryDoc" resultType="doctor">
+        select d.*,h.name from doctor d left join hospital h on d.hid = h.id
+    </select>
+
+    <!--Doctor queryById(Integer id)-->
+    <select id="queryById" parameterType="int" resultType="doctor">
+        select d.*,h.name from doctor d left join hospital h on d.hid = h.id  where d.id = #{id}
+    </select>
+
+    <!--int insertDoc(Doctor doctor)-->
+    <insert id="insertDoc" useGeneratedKeys="true" keyProperty="id">
+        insert into doctor(name,sex,address,hid) values (#{name},#{sex},#{address},#{hospital.id})
+    </insert>
+
+    <!--int deleteDoc(Integer id)-->
+    <delete id="deleteDoc" parameterType="int">
+        delete from doctor where id = #{id}
+    </delete>
+
+    <!--int updateDoc(Doctor doctor)-->
+    <update id="updateDoc">
+        update doctor set name = #{name}, sex = #{sex}, address = #{address}, hid = #{hospital.id} where id = #{id}
+    </update>
+
+</mapper>
