@@ -4,12 +4,38 @@
 
 
 <mapper namespace="com.qingaiao1.mapper.DocMapper">
+
+    <!--List<Doctor> queryDocAndHos()  处理映射关系 多对一, 处理实体类属性-->
+    <resultMap id="queryDocAndHos" type="Doctor">
+        <id column="id" property="id"></id>
+        <result column="name" property="name"></result>
+        <result column="sex" property="sex"></result>
+        <result column="address" property="address"></result>
+        <result column="hid" property="hospital.id"></result>
+        <result column="hname" property="hospital.name"></result>
+    </resultMap>
+    <select id="queryDocAndHos" resultMap="queryDocAndHos" >
+        select d.*,h.name hname from doctor d left join hospital h on d.hid = h.id
+    </select>
+
     <!--List<Doctor> queryDoc ()-->
     <select id="queryDoc" resultType="doctor">
         select d.*,h.name from doctor d left join hospital h on d.hid = h.id
         <where>
-
+        <if test="name != '' and name != null">
+            and name like (%${name}%)
+        </if>
+        <if test="sex!= null and name != ''">
+            and sex = #{sex}
+        </if>
         </where>
+        limit
+        <if test="startIndex == null">
+            0,#{pageCount}
+        </if>
+        <if test="startIndex != null">
+            #{startIndex},#{pageCount}
+        </if>
     </select>
 
     <!--Doctor queryById(Integer id)-->

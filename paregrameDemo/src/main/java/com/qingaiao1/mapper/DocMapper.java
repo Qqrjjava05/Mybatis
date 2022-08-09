@@ -22,4 +22,6 @@ public interface DocMapper {
     int updateDoc(Doctor doctor);
 
     int insertDoc(Doctor doctor);
+
+    List<Doctor> queryDocAndHos();
 }

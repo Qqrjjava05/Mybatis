@@ -3,11 +3,13 @@ package com.qingaiao1.test;
 import com.qingaiao1.entity.Doctor;
 import com.qingaiao1.entity.Hospital;
 import com.qingaiao1.mapper.DocMapper;
+import com.qingaiao1.mapper.HosMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
+import javax.sound.midi.Soundbank;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,8 @@ public class Test {
 
         DocMapper docMapper = sqlSession.getMapper(DocMapper.class);
 
+        //queryDocAndHos(docMapper);
+
         //queryDoc(docMapper);
 
         //queryA_Doc(docMapper, 22);
@@ -39,7 +43,27 @@ public class Test {
         deleteDoc(docMapper, ids);*/
 
         //updateDoc(docMapper, new Doctor(22,"子涵~~~~","女","青桥",new Hospital(1,null)));
+
+
+        HosMapper hosMapper = sqlSession.getMapper(HosMapper.class);
+        queryHosAndDoc(hosMapper);
         sqlSession.close();
+    }
+
+    //查医院及其医生
+    private static void queryHosAndDoc(HosMapper hosMapper){
+        List<Hospital> hospitalList = hosMapper.queryHosAndDoc();
+        for (Hospital hospital : hospitalList) {
+            System.out.println(hospital);
+        }
+    }
+
+    //查医生和医院  多对一
+    private static void queryDocAndHos(DocMapper docMapper){
+        List<Doctor> doctorList = docMapper.queryDocAndHos();
+        for (Doctor doctor : doctorList) {
+            System.out.println(doctor);
+        }
     }
 
     //查
