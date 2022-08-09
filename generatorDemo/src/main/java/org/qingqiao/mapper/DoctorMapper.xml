@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.qingqiao.mapper.DoctorMapper" >
+  <resultMap id="BaseResultMap" type="Doctor" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <association property="hospital" javaType="hospital" column="hid" >
+      <id column="hid" property="id"/>
+      <result column="hname" property="name"/>
+    </association>
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from doctor
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.qingqiao.entity.Doctor" useGeneratedKeys="true" keyProperty="id" >
+    insert into doctor (id, name, sex, 
+      address, hid)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{hospital.id,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="org.qingqiao.entity.Doctor" >
+    update doctor
+    set name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      hid = #{hid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, name, sex, address, hid
+    from doctor
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select d.id, d.name, d.sex, d.address, hid,h.name hname
+    from doctor d left join hospital h on d.hid = h.id
+  </select>
+</mapper>

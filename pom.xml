@@ -11,6 +11,7 @@
     <modules>
         <module>crudDemo</module>
         <module>paregrameDemo</module>
+        <module>generatorDemo</module>
     </modules>
 
     <properties>
@@ -48,5 +49,6 @@
             <version>1.7.5</version>
         </dependency>
     </dependencies>
+
 
 </project>

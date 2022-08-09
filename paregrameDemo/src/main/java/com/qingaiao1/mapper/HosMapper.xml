@@ -3,8 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--包名, 对应接口全限定名-->
 <mapper namespace="com.qingaiao1.mapper.HosMapper">
-<!--
-    &lt;!&ndash;List<Hospital> queryHosAndDoc() 懒加载&ndash;&gt;
+    <!-- List<Hospital> queryHosAndDoc() 分步查询+懒加载  -->
     <select id="queryHosAndDoc" resultMap="baseMap">
         select * from hospital
     </select>
@@ -16,9 +15,9 @@
     <select id="getDoc" resultType="doctor">
         select * from doctor where hid = #{id}
     </select>
--->
-    <!--使用collection一对多-->
-    <!--List<Hospital> queryHosAndDoc()-->
+    <!--
+    &lt;!&ndash;使用collection一对多&ndash;&gt;
+    &lt;!&ndash;List<Hospital> queryHosAndDoc()&ndash;&gt;
     <select id="queryHosAndDoc" resultMap="secondMap">
         select d.*,h.name hhname from hospital h left join doctor d on d.hid = h.id
     </select>
@@ -34,5 +33,5 @@
             <result column="hid" property="hospital.id"/>
             <result column="hhname" property="hospital.name"/>
         </collection>
-    </resultMap>
+    </resultMap>-->
 </mapper>
