@@ -16,11 +16,10 @@
     $(function () {
         //添加
         $("#btn").click(function () {
-
             $.ajax({
                 url: "doc?m=insert",
                 data: $("#f").serialize(),
-                dataType:"json",
+                dataType:"text",
                 success: function (o) {
                     if(o){
                         location.reload();
@@ -28,12 +27,38 @@
                 }
 
             });
+
+            console.log($("#address").val())
+            console.log($(".sex1").val())
         })
 
 
-
-
     });
+    //删除
+    function dele(id) {
+
+        if (alert("是否删除?")){
+
+            $.ajax({
+                url: "doc?m=delete",
+                data: {id: id},
+                dataType: "json",
+                success: function (obj) {
+                    if (obj) {
+                        location.reload();
+                    }
+                }
+            });
+
+        }
+    }
+    //修改
+    function upd(id) {
+        localStorage.setItem("id", id);
+        location = "update.jsp";
+
+    }
+
 </script>
 <body>
 
@@ -53,14 +78,14 @@
             <td>${doc.sex}</td>
             <td>${doc.address}</td>
             <td>${doc.hospital.name}</td>
-            <td></td>
+            <td> <input type="button" class="upd" value="修改" onclick="upd(${doc.id})"></td>
+            <td> <input type="button" class="deleteDoc"  value="删除" onclick="dele(${doc.id})"></td>
         </tr>
     </c:forEach>
 </table>
 <br/>
 <h2>添加医生</h2>
 <form id="f">
-    <input type="hidden" name="id" id="id">
     姓名: <input type="text" name="name" id="name"><br>
     性别: <input type="radio" name="sex" class="sex1" value="男">男
     <input type="radio" name="sex" class="sex1" value="女">女<br>

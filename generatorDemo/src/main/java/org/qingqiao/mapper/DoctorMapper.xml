@@ -26,13 +26,13 @@
     set name = #{name,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
-      hid = #{hid,jdbcType=INTEGER}
+      hid = #{hospital.id,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select id, name, sex, address, hid
-    from doctor
-    where id = #{id,jdbcType=INTEGER}
+    select d.id, d.name, d.sex, d.address, hid,h.name hname
+    from doctor d left join hospital h on d.hid = h.id
+    where d.id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap" >
     select d.id, d.name, d.sex, d.address, hid,h.name hname

@@ -1,5 +1,6 @@
 package org.qingqiao.servlet;
 
+import com.alibaba.fastjson.JSON;
 import com.sun.net.httpserver.HttpServer;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -50,6 +51,46 @@ public class DocServlet extends HttpServlet {
             query(request,response);
         }else if ("insert".equals(m)){
             insert(request,response);
+        }else if("delete".equals(m)){
+            delete(request,response);
+        }else if("update".equals(m)){
+            update(request,response);
+        }else if ("queryA".equals(m)){
+            queryA(request,response);
+        }
+    }
+
+    private void queryA(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        int id = Integer.parseInt(request.getParameter("id"));
+        Doctor doctor = mapper.selectByPrimaryKey(id);
+
+        String s = JSON.toJSONString(doctor);
+        response.getWriter().print(s);
+
+    }
+
+    private void update(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        String sex = request.getParameter("sex");
+        String address = request.getParameter("address");
+        int hid = Integer.parseInt(request.getParameter("hid"));
+
+        int i = mapper.updateByPrimaryKey(new Doctor(id, name, sex, address, new Hospital(hid, null, null)));
+        if (i > 0) {
+            response.getWriter().print(true);
+        }
+
+
+    }
+
+    private void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        int id = Integer.parseInt(request.getParameter("id"));
+        int i = mapper.deleteByPrimaryKey(id);
+        if (i > 0) {
+            response.getWriter().print(true);
         }
     }
 
